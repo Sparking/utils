@@ -1,0 +1,10 @@
+diff -Nrua rpm-4.14.2.1/rpmio/digest_nss.c rpm-4.14.2.1-fix/rpmio/digest_nss.c
+--- rpm-4.14.2.1/rpmio/digest_nss.c	2018-09-13 20:52:37.324274216 +0800
++++ rpm-4.14.2.1-fix/rpmio/digest_nss.c	2018-12-16 20:03:41.839970989 +0800
+@@ -1,5 +1,6 @@
+ #include "system.h"
+ 
++#include <signal.h>
+ #include <pthread.h>
+ #include <nss.h>
+ #include <sechash.h>

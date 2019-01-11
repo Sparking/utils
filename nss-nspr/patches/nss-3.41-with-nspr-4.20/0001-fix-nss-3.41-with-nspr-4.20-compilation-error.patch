@@ -1,0 +1,56 @@
+diff -Nru nss-3.41.origin/nss/coreconf/config.gypi nss-3.41.fix/nss/coreconf/config.gypi
+--- nss-3.41.origin/nss/coreconf/config.gypi	2018-12-08 00:05:21.000000000 +0800
++++ nss-3.41.fix/nss/coreconf/config.gypi	2018-12-19 16:42:55.151472235 +0800
+@@ -377,7 +377,7 @@
+               '-std=c++0x',
+             ],
+             'ldflags': [
+-              '-z', 'noexecstack',
++              '-Wa,--noexecstack'
+             ],
+             'conditions': [
+               [ 'target_arch=="ia32"', {
+diff -Nru nss-3.41.origin/nss/coreconf/Linux.mk nss-3.41.fix/nss/coreconf/Linux.mk
+--- nss-3.41.origin/nss/coreconf/Linux.mk	2018-12-08 00:05:21.000000000 +0800
++++ nss-3.41.fix/nss/coreconf/Linux.mk	2018-12-19 16:42:55.151472235 +0800
+@@ -3,9 +3,9 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-CC     ?= gcc
+-CCC    ?= g++
+-RANLIB ?= ranlib
++CC     = $(CROSS)-gcc
++CCC    = $(CROSS)-g++
++RANLIB = $(CROSS)-ranlib
+ 
+ include $(CORE_DEPTH)/coreconf/UNIX.mk
+ 
+@@ -20,7 +20,7 @@
+ 	IMPL_STRATEGY = _PTH
+ endif
+ 
+-DEFAULT_COMPILER = gcc
++DEFAULT_COMPILER = $(CROSS)-gcc
+ 
+ ifeq ($(OS_TARGET),Android)
+ ifndef ANDROID_NDK
+@@ -148,7 +148,7 @@
+ # against the libsanitizer runtime built into the main executable.
+ ZDEFS_FLAG		= -Wl,-z,defs
+ DSO_LDOPTS		+= $(if $(findstring 2.11.90.0.8,$(shell ld -v)),,$(ZDEFS_FLAG))
+-LDFLAGS			+= $(ARCHFLAG) -z noexecstack
++LDFLAGS			+= $(ARCHFLAG) -Wa,--noexecstack
+ 
+ # On Maemo, we need to use the -rpath-link flag for even the standard system
+ # library directories.
+@@ -207,3 +207,9 @@
+ LDFLAGS += --coverage
+ DSO_LDOPTS += --coverage
+ endif
++
++SYS_INC_PATH = $(PRJROOT)/images/header
++SYS_LIB_PATH = $(PRJROOT)/images/rootfs
++CFLAGS       += -I$(SYS_INC_PATH)
++OS_LIBS      += -L$(SYS_LIB_PATH)/lib -L$(SYS_LIB_PATH)/lib64
++
