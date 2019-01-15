@@ -83,7 +83,7 @@ define patch_src
      for pa in `find $2 -type f -name "*.patch" | sort`; do \
          patch -p1 < $${pa}; \
      done; \
-     popd; \
+     popd > /dev/null; \
  fi
 endef
 
@@ -100,7 +100,7 @@ define copy_files
 	    exit 1; \
     fi; \
 	for obj in $3; do \
-	    if cp $4 $1/$${obj} $2 > /dev/null 2>&1; then \
+	    if cp $4 $1/$${obj} $2 > /dev/null; then \
 		    printf "copy $${obj} success\n"; \
 		else \
 		    printf "copy $${obj} failed\n" 1>&2; \
@@ -130,7 +130,7 @@ define copy_dir
         exit 1; \
     fi; \
 	for obj in `ls -A $1`; do \
-        if cp $3 $1/$${obj} $2 > /dev/null 2>&1; then \
+        if cp $3 $1/$${obj} $2 > /dev/null; then \
             printf "copy $${obj} success\n"; \
         else \
             printf "copy $${obj} failed\n" 1>&2; \

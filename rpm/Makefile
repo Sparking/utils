@@ -101,6 +101,7 @@ $(pkg)-build: $(pkg_build_dir)
 	pushd $(pkg_build_dir) > /dev/null && \
 	./configure \
 	    --prefix=/usr \
+	    --libdir=$(pkg_tmp_install_dir)/lib \
 	    --host=$(CROSS) \
 	    --disable-nls \
 	    --disable-rpath \
@@ -115,7 +116,7 @@ $(pkg)-build: $(pkg_build_dir)
 	    LDFLAGS="$(pkg_spec_ldflags)" \
 	    LIBS="$(pkg_spec_libs)" && \
 	$(MAKE) && \
-	$(MAKE) install prefix=$(pkg_tmp_install_dir) libdir=$(pkg_tmp_install_dir)/lib && \
+	$(MAKE) install prefix=$(pkg_tmp_install_dir) && \
 	popd > /dev/null
 $(pkg)-install: $(pkg)-build
 	@echo install $(pkg) ...

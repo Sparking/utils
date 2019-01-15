@@ -116,31 +116,19 @@ $(pkg_build_dir): $(pkg_location)
 	$(call patch_src, $(pkg_build_dir), $(pkg_patches_dir))
 $(pkg)-build: $(pkg_build_dir)
 	@echo building $(pkg) ...
-	unset AR && \
-	unset CFLAGS && \
-	unset LDFLAGS && \
-	unset CPPFLAGS && \
+	unset AR && unset CFLAGS && unset LDFLAGS && unset CPPFLAGS && \
 	    NSPR_CONFIGURE_ENV=$($(subpkg2)_spec_env) \
 	    NSPR_CONFIGURE_OPTS="--target=$(CROSS) --cache-file=/dev/null $($(subpkg2)_extra_conf_options)" \
 	make -C $(pkg_build_dir)/nss nss_build_all \
+	    OS_TEST=$(ARCH) \
+	    NATIVE_CC=gcc \
 	    CROSS_COMPILE=1 \
+	    BUILD_OPT=1 \
 	    OPT_CODE_SIZE=1 \
 	    NSS_DISABLE_GTESTS=1 \
 	    ALLOW_OPT_CODE_SIZE=1 \
 	    NSS_USE_SYSTEM_SQLITE=1\
-	    BUILD_OPT=1 \
-	    NATIVE_CC=gcc \
-	    OS_TEST=$(ARCH) \
-	    $(pkg_mk_extra_options) 
-#	    CROSS_COMPILE=1 \
-#	    OPT_CODE_SIZE=1 \
-#	    NSS_DISABLE_GTESTS=1 \
-#	    ALLOW_OPT_CODE_SIZE=1 \
-#	    NSS_USE_SYSTEM_SQLITE=1\
-#	    NSPR_CONFIGURE_ENV=$($(subpkg2)_spec_env) \
-#	    NSPR_CONFIGURE_OPTS="--target=$(CROSS) --cache-file=/dev/null $($(subpkg2)_extra_conf_options)" \
-#	    OS_TEST=$(ARCH) \
-#	    $(pkg_mk_extra_options)
+	   $(pkg_mk_extra_options)
 $(pkg)-install: $(pkg)-build
 	$(call try_mkdir, $(install_sodir))
 	$(call try_mkdir, $(install_header_dir))
