@@ -8,7 +8,7 @@ cross_compiler_sizeof_size_t := $(shell echo __SIZEOF_SIZE_T__   | LD_LIBRARY_PA
 # $1: 存放文件的目录
 define try_strip_dir
 @for obj in `find $1 2>/dev/null`; do \
-    if ! [ `file $${obj} | grep -i elf | grep 'not stripped' | wc -m` -eq 0 ]; then \
+    if ! [ `file -L $${obj} | grep -i elf | grep 'not stripped' | wc -m` -eq 0 ]; then \
         $(CROSS)-strip -s $${obj}; \
         echo STRIP $${obj}; \
     fi; \
@@ -28,7 +28,7 @@ define try_strip_files
 	 prefix=$${prefix}/; \
  fi; \
  for obj in $1; do \
-    if ! [ `file $${prefix}$${obj} | grep -i elf | grep 'not stripped' | wc -m` -eq 0 ]; then \
+    if ! [ `file -L $${prefix}$${obj} | grep -i elf | grep 'not stripped' | wc -m` -eq 0 ]; then \
         $(CROSS)-strip -s $${prefix}$${obj}; \
         echo STRIP $${obj}; \
     fi; \
@@ -53,7 +53,7 @@ endef
 # $2: 记录log的文件
 define log_sha1
 @for d in $1; do \
-    echo git log -1 --pretty="format:%H" $${d} > $2; \
+    git log -1 --pretty="format:%H" $${d} > $2; \
  done
 @$(CROSS)-gcc -v >> $2 2>&1
 endef

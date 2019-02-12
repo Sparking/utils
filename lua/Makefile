@@ -1,4 +1,4 @@
-include ../marcos.mk
+include ../macros.mk
 
 IMAGES = $(PRJROOT)/images
 KBUILD_OUTPUT = $(PRJROOT)/tmp/kernel-build
