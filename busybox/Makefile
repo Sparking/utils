@@ -1,8 +1,5 @@
 include ../macros.mk
 
-IMAGES = $(PRJROOT)/images
-KBUILD_OUTPUT = $(PRJROOT)/tmp/kernel-build
-
 # 编译依赖的目录
 pkg               := busybox
 pwd               := $(shell pwd)
@@ -17,16 +14,6 @@ pkg_version_minor := 30
 pkg_version_build := 1
 #pkg_version_revision :=
 
-# 交叉编译工具链
-CC := $(CROSS)-gcc
-AR := $(CROSS)-ar
-AS := $(CROSS)-as
-LD := $(CROSS)-ld
-STRIP := $(CROSS)-strip
-RANLIB := $(CROSS)-ranlib
-
-# 安装目录
-header_location     :=
 top_srcdir          := $(pwd)
 install_root        := ${top_srcdir}/images
 install_header_dir  := ${install_root}/header/$(header_location)
