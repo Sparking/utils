@@ -1,13 +1,10 @@
 include ../macros.mk
 
-IMAGES = $(PRJROOT)/images
-KBUILD_OUTPUT = $(PRJROOT)/tmp/kernel-build
-
 # 编译依赖的目录
 pkg               := db
-pwd               := $(shell pwd)
+pwd               := $(CURDIR)
 pkg_build_root    := $(pwd)/build
-pkg_storage_root  := $(pwd)/packages
+pkg_storage_root  := $(pwd)/package
 pkg_version       := 18.1.25
 pkg_location      := $(pkg_storage_root)/$(pkg)-$(pkg_version).tar.gz
 pkg_build_dir     := $(pkg_build_root)/$(pkg)-$(pkg_version)
@@ -17,18 +14,18 @@ pkg_version_build := 25
 #pkg_version_revision :=
 
 # 交叉编译工具链
-CC := $(CROSS)-gcc
-AR := $(CROSS)-ar
-AS := $(CROSS)-as
-LD := $(CROSS)-ld
-STRIP := $(CROSS)-strip
-RANLIB := $(CROSS)-ranlib
+CC := $(CROSS_COMPILE)gcc
+AR := $(CROSS_COMPILE)ar
+AS := $(CROSS_COMPILE)as
+LD := $(CROSS_COMPILE)ld
+STRIP := $(CROSS_COMPILE)strip
+RANLIB := $(CROSS_COMPILE)ranlib
 
 # 安装目录
 header_location     :=
 top_srcdir          := $(pwd)
-install_root        := ${top_srcdir}/images
-install_header_dir  := ${install_root}/header/$(header_location)
+install_root        := $(top_srcdir)/images
+install_header_dir  := $(install_root)/include
 install_adir        := $(install_root)/lib
 install_rootfs_dir  := $(install_root)/rootfs
 install_sodir       := $(install_rootfs_dir)/$(INSTALL_SODIR)
@@ -96,7 +93,7 @@ all: $(pkg)
 
 .PHONY: $(pkg) $(pkg)-build $(pkg)-install
 $(pkg):
-	$(call log_sha1, $(pwd) $(pwd)/../tcl-expect, $(pkg_check_flag))
+	$(call log_sha1, $(pwd), $(pkg_check_flag))
 	@if [ -f $(pkg_build_flag) ] && [ `diff -Nrua $(pkg_build_flag) $(pkg_check_flag) 2>&1 | wc -m` -eq 0 ] ; then \
 		cp -ar $(pkg_cache_root)/* $(IMAGES); \
 		echo $(pkg)-$(pkg_version) cached; \
@@ -112,7 +109,7 @@ $(pkg)-build: $(pkg_build_dir)
 	pushd $(pkg_build_dir)/build_unix > /dev/null && \
 	../dist/configure \
 	    --prefix=$(pkg_tmp_install_dir) \
-	    --host=$(CROSS) \
+	    --host=$(TARGET) \
 	    --disable-static \
 	    $(pkg_extra_conf) \
 	    CFLAGS="$(pkg_spec_cflags)" \
@@ -144,7 +141,7 @@ $(pkg)-install: $(pkg)-build
 	    libdb-$(pkg_version_major).$(pkg_version_minor).so \
 	    libdb-$(pkg_version_major).so libdb.so \
 		$(pkg_extra_libs), -a)
-	$(call log_sha1, $(pwd) $(pwd)/../tcl-expect, $(pkg_build_flag))
+	$(call log_sha1, $(pwd), $(pkg_build_flag))
 
 .PHONY: install
 install:

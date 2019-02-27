@@ -1,15 +1,15 @@
 # 编译器相关
-cross_compiler_version       := $(shell echo __GNUC__            | LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(CROSS)-gcc -E - | tail -n 1)
-cross_compiler_minor_version := $(shell echo __GNUC_MINOR__      | LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(CROSS)-gcc -E - | tail -n 1)
-cross_compiler_patchlevel    := $(shell echo __GNUC_PATCHLEVEL__ | LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(CROSS)-gcc -E - | tail -n 1)
-cross_compiler_sizeof_size_t := $(shell echo __SIZEOF_SIZE_T__   | LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) $(CROSS)-gcc -E - | tail -n 1)
+cross_compiler_version       := $(shell echo __GNUC__            | $(CROSS_COMPILE)gcc -E - | tail -n 1)
+cross_compiler_minor_version := $(shell echo __GNUC_MINOR__      | $(CROSS_COMPILE)gcc -E - | tail -n 1)
+cross_compiler_patchlevel    := $(shell echo __GNUC_PATCHLEVEL__ | $(CROSS_COMPILE)gcc -E - | tail -n 1)
+cross_compiler_sizeof_size_t := $(shell echo __SIZEOF_SIZE_T__   | $(CROSS_COMPILE)gcc -E - | tail -n 1)
 
 # 尝试裁剪符号
 # $1: 存放文件的目录
 define try_strip_dir
 @for obj in `find $1 2>/dev/null`; do \
     if ! [ `file -L $${obj} | grep -i elf | grep 'not stripped' | wc -m` -eq 0 ]; then \
-        $(CROSS)-strip -s $${obj}; \
+        $(CROSS_COMPILE)strip -s $${obj}; \
         echo STRIP $${obj}; \
     fi; \
  done
@@ -29,7 +29,7 @@ define try_strip_files
  fi; \
  for obj in $1; do \
     if ! [ `file -L $${prefix}$${obj} | grep -i elf | grep 'not stripped' | wc -m` -eq 0 ]; then \
-        $(CROSS)-strip -s $${prefix}$${obj}; \
+        $(CROSS_COMPILE)strip -s $${prefix}$${obj}; \
         echo STRIP $${obj}; \
     fi; \
  done
@@ -55,7 +55,7 @@ define log_sha1
 @for d in $1; do \
     git log -1 --pretty="format:%H" $${d} > $2; \
  done
-@$(CROSS)-gcc -v >> $2 2>&1
+@$(CROSS_COMPILE)gcc -v >> $2 2>&1
 endef
 
 # 参数说明

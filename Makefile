@@ -1,13 +1,16 @@
-export pkgs := busybox zlib libiconv ncurses readline lua sqlite db file nss-nspr popt rpm
-export PRJROOT ?= $(shell pwd)/project
-export IMAGES  ?= $(PRJROOT)/images
-export INSTALL_SODIR ?= lib
-export ARCH     = arm
-export CROSS    = arm-linux-gnueabi
-export CFLAGS   = -I$(IMAGES)/header
-export CPPFLAGS = $(CFLAGS)
-export LDFLAGS  = -L$(IMAGES)/rootfs/$(INSTALL_SODIR) -L$(IMAGES)/lib
-export CACHE    = $(PRJROOT)/cache
+export pkgs          := zlib libiconv ncurses readline lua sqlite db file nss-nspr popt rpm
+export PRJROOT        = $(CURDIR)/project
+export IMAGES        := $(PRJROOT)/images
+export CACHE         := $(PRJROOT)/cache
+export INSTALL_SODIR  = lib
+
+export ARCH          := arm
+export TARGET        := arm-linux-gnueabihf
+export CROSS_COMPILE := $(TARGET)-
+
+export CROSS_COMPILE_INCLUDE_PATH         := $(PRJROOT)/include
+export CROSS_COMPILE_DYNAMIC_LIBRARY_PATH := $(IMAGES)/$(INSTALL_SODIR)
+export CROSS_COMPILE_STATIC_LIBRARY_PATH  := $(PRJROOT)/lib
 
 all:
 	for pkg in $(pkgs); do \
