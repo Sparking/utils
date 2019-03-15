@@ -1,11 +1,11 @@
-export pkgs          := busybox zlib libiconv ncurses readline lua sqlite db file nss-nspr popt rpm
+export pkgs          := busybox zlib libiconv ncurses readline lua sqlite db file nss-nspr popt rpm bash coreutils
 export PRJROOT        = $(CURDIR)/project
 export IMAGES        := $(PRJROOT)/images
 export CACHE         := $(PRJROOT)/cache
 export INSTALL_SODIR  = lib
 
 export ARCH          := arm
-export TARGET        := arm-linux-gnueabihf
+export TARGET        := arm-linux-gnueabi
 export CROSS_COMPILE := $(TARGET)-
 
 export CROSS_COMPILE_INCLUDE_PATH         := $(PRJROOT)/include

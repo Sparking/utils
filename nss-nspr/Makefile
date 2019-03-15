@@ -29,14 +29,14 @@ RANLIB :=
 header_location     := 
 top_srcdir          := $(pwd)
 install_root        := ${top_srcdir}/images
-install_header_dir  := ${install_root}/header/$(header_location)
+install_header_dir  := ${install_root}/include/$(header_location)
 install_rootfs_dir  := $(install_root)/rootfs
 install_sodir       := $(install_rootfs_dir)/$(INSTALL_SODIR)
 INSTALL_MOD_PATH    := $(install_rootfs_dir)
 
 # 缓存目录
 pkg_cache_root    := $(CACHE)/utils/$(pkg)
-cache_header_dir  := $(pkg_cache_root)/header/$(header_location)
+cache_header_dir  := $(pkg_cache_root)/include/$(header_location)
 cache_adir        := $(pkg_cache_root)/lib
 cache_rootfs_dir  := $(pkg_cache_root)/rootfs
 cache_sodir       := $(cache_rootfs_dir)/$(INSTALL_SODIR)

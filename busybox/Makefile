@@ -32,7 +32,7 @@ pkg_tmp_install_dir    := $(install_tmp_root)
 
 # 缓存目录
 pkg_cache_root    := $(CACHE)/utils/$(pkg)
-cache_header_dir  := $(pkg_cache_root)/header/$(header_location)
+cache_header_dir  := $(pkg_cache_root)/include/$(header_location)
 cache_adir        := $(pkg_cache_root)/lib
 cache_rootfs_dir  := $(pkg_cache_root)/rootfs
 cache_sodir       := $(cache_rootfs_dir)/$(INSTALL_SODIR)
