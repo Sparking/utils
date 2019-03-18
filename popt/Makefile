@@ -5,7 +5,7 @@ KBUILD_OUTPUT = $(PRJROOT)/tmp/kernel-build
 
 # 编译依赖的目录
 pkg               := popt
-pwd               := $(shell pwd)
+pwd               := $(CURDIR)
 pkg_build_root    := $(pwd)/build
 pkg_storage_root  := $(pwd)/packages
 pkg_version       := 1.16

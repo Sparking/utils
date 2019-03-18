@@ -2,7 +2,7 @@ include ../macros.mk
 
 # 编译依赖的目录
 pkg               := bash
-pwd               := $(shell pwd)
+pwd               := $(CURDIR)
 pkg_build_root    := $(pwd)/build
 pkg_storage_root  := $(pwd)
 pkg_config_root   := $(pwd)/configs
@@ -27,7 +27,7 @@ install_etc_dir     := $(install_rootfs_dir)/etc
 INSTALL_MOD_PATH    := $(install_rootfs_dir)
 
 # 临时安装目录
-install_tmp_root       := $(pkg_build_dir)/install
+install_tmp_root       := $(pwd)/install
 pkg_tmp_install_dir    := $(install_tmp_root)
 
 # 缓存目录

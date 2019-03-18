@@ -2,7 +2,7 @@ include ../macros.mk
 
 # 编译依赖的目录
 pkg               := busybox
-pwd               := $(shell pwd)
+pwd               := $(CURDIR)
 pkg_build_root    := $(pwd)/build
 pkg_storage_root  := $(pwd)
 pkg_config_root   := $(pwd)/configs
