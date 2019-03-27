@@ -70,8 +70,6 @@ $(pkg_build_dir): $(pkg_location)
 	$(call try_mkdir, $(pkg_build_root))
 	$(call extract_tarball, $<, $(pkg_build_root), $@)
 $(pkg)-build: $(pkg_build_dir)
-	$(call try_mkdir, $(install_rootfs_dir))
-	$(call try_mkdir, $(cache_rootfs_dir))
 	@echo "building $(pkg) ..."
 	pushd $(pkg_build_dir) > /dev/null && \
 	./configure --prefix=$(pkg_tmp_install_dir) \
@@ -81,11 +79,13 @@ $(pkg)-build: $(pkg_build_dir)
 	$(MAKE) install && \
 	popd > /dev/null
 $(pkg)-install: $(pkg)-build
+	$(call try_mkdir, $(install_bin_dir))
+	$(call try_mkdir, $(cache_bin_dir))
 	$(call try_strip_dir, $(pkg_tmp_install_dir)/bin)
 	@echo installing $(pkg) ...
 	$(call copy_dir, $(pkg_tmp_install_dir)/bin, $(install_bin_dir), -ar)
 	@echo caching $(pkg) ...
-	$(call copy_dir, $(pkg_tmp_install_dir), $(cache_bin_dir), -ar)
+	$(call copy_dir, $(pkg_tmp_install_dir)/bin, $(cache_bin_dir), -ar)
 	$(call log_sha1, $(pwd), $(pkg_build_flag))
 
 .PHONY: install
