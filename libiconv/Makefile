@@ -89,7 +89,7 @@ all: $(pkg)
 
 .PHONY: $(pkg) $(pkg)-build $(pkg)-install
 $(pkg):
-	$(call log_sha1, $(pwd) $(pwd)/../tcl-expect, $(pkg_check_flag))
+	$(call log_sha1, $(pwd), $(pkg_check_flag))
 	@if [ -f $(pkg_build_flag) ] && [ `diff -Nrua $(pkg_build_flag) $(pkg_check_flag) 2>&1 | wc -m` -eq 0 ] ; then \
 		cp -ar $(pkg_cache_root)/* $(IMAGES); \
 		echo $(pkg)-$(pkg_version) cached; \
@@ -133,7 +133,7 @@ $(pkg)-install: $(pkg)-build
 	$(call copy_dir, $(pkg_tmp_install_dir)/bin, $(cache_usr_bin_dir), -ar)
 	$(call copy_files, $(pkg_tmp_install_dir)/lib, $(cache_sodir), \
 		$(pkg_install_libs), -a)
-	$(call log_sha1, $(pwd) $(pwd)/../tcl-expect, $(pkg_build_flag))
+	$(call log_sha1, $(pwd), $(pkg_build_flag))
 
 .PHONY: install
 install:

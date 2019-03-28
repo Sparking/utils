@@ -65,7 +65,7 @@ build_use_64_option := 0
 endif
 
 # 编译选项
-pkg_spec_cflags  := $(CFLAGS)
+pkg_spec_cflags  := $(CFLAGS) $(CPPFLAGS)
 pkg_spec_ldflags := $(LDFLAGS) 
 pkg_spec_libs    := -liconv
 pkg_extra_conf   :=

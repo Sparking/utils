@@ -117,8 +117,8 @@ $(pkg_build_dir): $(pkg_location)
 $(pkg)-build: $(pkg_build_dir)
 	@echo building $(pkg) ...
 	unset AR && unset CFLAGS && unset LDFLAGS && unset CPPFLAGS && \
-	    NSPR_CONFIGURE_ENV=$($(subpkg2)_spec_env) \
-	    NSPR_CONFIGURE_OPTS="--target=$(TARGET) --cache-file=/dev/null $($(subpkg2)_extra_conf_options)" \
+	    NSPR_CONFIGURE_ENV="$($(subpkg2)_spec_env)" \
+	    NSPR_CONFIGURE_OPTS="--host=$(TARGET) --cache-file=/dev/null $($(subpkg2)_extra_conf_options)" \
 	make -C $(pkg_build_dir)/nss nss_build_all \
 	    OS_TEST=$(ARCH) \
 	    NATIVE_CC=gcc \

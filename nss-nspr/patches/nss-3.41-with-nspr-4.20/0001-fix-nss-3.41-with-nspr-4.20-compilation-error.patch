@@ -20,9 +20,9 @@ diff -Nru nss-3.41.origin/nss/coreconf/Linux.mk nss-3.41.fix/nss/coreconf/Linux.
 -CC     ?= gcc
 -CCC    ?= g++
 -RANLIB ?= ranlib
-+CC     = $(CROSS)-gcc
-+CCC    = $(CROSS)-g++
-+RANLIB = $(CROSS)-ranlib
++CC     = $(CROSS_COMPILE)gcc
++CCC    = $(CROSS_COMPILE)g++
++RANLIB = $(CROSS_COMPILE)ranlib
  
  include $(CORE_DEPTH)/coreconf/UNIX.mk
  
@@ -31,7 +31,7 @@ diff -Nru nss-3.41.origin/nss/coreconf/Linux.mk nss-3.41.fix/nss/coreconf/Linux.
  endif
  
 -DEFAULT_COMPILER = gcc
-+DEFAULT_COMPILER = $(CROSS)-gcc
++DEFAULT_COMPILER = $(CROSS_COMPILE)gcc
  
  ifeq ($(OS_TARGET),Android)
  ifndef ANDROID_NDK
