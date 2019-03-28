@@ -17,12 +17,12 @@ pkg_version_build := 5
 #pkg_version_revision :=
 
 # 交叉编译工具链
-CC := $(CROSS)-gcc
-AR := $(CROSS)-ar rcu
-AS := $(CROSS)-as
-LD := $(CROSS)-ld
-STRIP := $(CROSS)-strip
-RANLIB := $(CROSS)-ranlib
+CC := $(CROSS_COMPILE)gcc
+AR := $(CROSS_COMPILE)ar rcu
+AS := $(CROSS_COMPILE)as
+LD := $(CROSS_COMPILE)ld
+STRIP := $(CROSS_COMPILE)strip
+RANLIB := $(CROSS_COMPILE)ranlib
 
 # 安装目录
 header_location     :=

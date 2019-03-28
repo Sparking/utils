@@ -57,7 +57,7 @@ build_use_64_option := 0
 endif
 
 # 编译选项
-$(subpkg2)_spec_tools := AR=$(CROSS)-ar AS=$(CROSS)-as CC=$(CROSS)-gcc CXX=$(CROSS)-g++ LD=$(CROSS)-ld RANLIB=$(CROSS)-ranlib STRIP=$(CROSS)-strip
+$(subpkg2)_spec_tools := AR=$(CROSS_COMPILE)ar AS=$(CROSS_COMPILE)as CC=$(CROSS_COMPILE)gcc CXX=$(CROSS_COMPILE)g++ LD=$(CROSS_COMPILE)ld RANLIB=$(CROSS_COMPILE)ranlib STRIP=$(CROSS_COMPILE)strip
 $(subpkg2)_spec_env   := "$($(subpkg2)_spec_tools) CPPFLAGS='$(CFLAGS)'"
 $(subpkg2)_extra_conf_options :=
 pkg_mk_extra_options  := NSS_ENABLE_WERROR=0
@@ -118,7 +118,7 @@ $(pkg)-build: $(pkg_build_dir)
 	@echo building $(pkg) ...
 	unset AR && unset CFLAGS && unset LDFLAGS && unset CPPFLAGS && \
 	    NSPR_CONFIGURE_ENV=$($(subpkg2)_spec_env) \
-	    NSPR_CONFIGURE_OPTS="--target=$(CROSS) --cache-file=/dev/null $($(subpkg2)_extra_conf_options)" \
+	    NSPR_CONFIGURE_OPTS="--target=$(TARGET) --cache-file=/dev/null $($(subpkg2)_extra_conf_options)" \
 	make -C $(pkg_build_dir)/nss nss_build_all \
 	    OS_TEST=$(ARCH) \
 	    NATIVE_CC=gcc \

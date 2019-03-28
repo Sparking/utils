@@ -17,12 +17,12 @@ pkg_version_build := 0
 #pkg_version_revision :=
 
 # 交叉编译工具链
-CC := $(CROSS)-gcc
-AR := $(CROSS)-ar
-AS := $(CROSS)-as
-LD := $(CROSS)-ld
-STRIP := $(CROSS)-strip
-RANLIB := $(CROSS)-ranlib
+CC := $(CROSS_COMPILE)gcc
+AR := $(CROSS_COMPILE)ar
+AS := $(CROSS_COMPILE)as
+LD := $(CROSS_COMPILE)ld
+STRIP := $(CROSS_COMPILE)strip
+RANLIB := $(CROSS_COMPILE)ranlib
 
 # 安装目录
 header_location     :=
@@ -100,7 +100,7 @@ $(pkg)-build: $(pkg_build_dir)
 	pushd $(pkg_build_dir) > /dev/null && \
 	./configure \
 	    --prefix=$(pkg_tmp_install_dir) \
-	    --host=$(CROSS) \
+	    --host=$(TARGET) \
 	    --disable-static \
 	    $(pkg_extra_conf) \
 	    CPPFLAGS="$(pkg_spec_cflags)" \

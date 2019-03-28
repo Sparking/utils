@@ -15,12 +15,12 @@ pkg_build_dir    := $(pkg_build_root)/rpm-$(pkg_version)
 pkg_patches_dir  := $(pkg_patches_root)/rpm-$(pkg_version)
 
 # 交叉编译工具链
-CC := $(CROSS)-gcc
-AR := $(CROSS)-ar
-AS := $(CROSS)-as
-LD := $(CROSS)-ld
-STRIP := $(CROSS)-strip
-RANLIB := $(CROSS)-ranlib
+CC := $(CROSS_COMPILE)gcc
+AR := $(CROSS_COMPILE)ar
+AS := $(CROSS_COMPILE)as
+LD := $(CROSS_COMPILE)ld
+STRIP := $(CROSS_COMPILE)strip
+RANLIB := $(CROSS_COMPILE)ranlib
 
 # 安装目录
 header_location     := 
@@ -102,7 +102,7 @@ $(pkg)-build: $(pkg_build_dir)
 	./configure \
 	    --prefix=/usr \
 	    --libdir=$(pkg_tmp_install_dir)/lib \
-	    --host=$(CROSS) \
+	    --host=$(TARGET) \
 	    --disable-nls \
 	    --disable-rpath \
 	    --disable-static \

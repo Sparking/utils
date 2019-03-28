@@ -7,22 +7,22 @@ KBUILD_OUTPUT = $(PRJROOT)/tmp/kernel-build
 pkg               := file
 pwd               := $(CURDIR)
 pkg_build_root    := $(pwd)/build
-pkg_storage_root  := $(pwd)/packages
-pkg_version       := 5.35
+pkg_storage_root  := $(pwd)
+pkg_version       := 5.36
 pkg_location      := $(pkg_storage_root)/$(pkg)-$(pkg_version).tar.gz
 pkg_build_dir     := $(pkg_build_root)/$(pkg)-$(pkg_version)
 pkg_version_major := 5
-pkg_version_minor := 35
+pkg_version_minor := 36
 pkg_version_build :=
 #pkg_version_revision :=
 
 # 交叉编译工具链
-CC := $(CROSS)-gcc
-AR := $(CROSS)-ar
-AS := $(CROSS)-as
-LD := $(CROSS)-ld
-STRIP := $(CROSS)-strip
-RANLIB := $(CROSS)-ranlib
+CC := $(CROSS_COMPILE)gcc
+AR := $(CROSS_COMPILE)ar
+AS := $(CROSS_COMPILE)as
+LD := $(CROSS_COMPILE)ld
+STRIP := $(CROSS_COMPILE)strip
+RANLIB := $(CROSS_COMPILE)ranlib
 
 # 安装目录
 header_location     :=
@@ -96,7 +96,7 @@ $(pkg)-build: $(pkg_build_dir)
 	pushd $(pkg_build_dir) > /dev/null && \
 	./configure \
 	    --prefix=/usr \
-	    --host=$(CROSS) \
+	    --host=$(TARGET) \
 	    --disable-static && \
 	touch magic/magic.mgc && \
 	$(MAKE) && \
